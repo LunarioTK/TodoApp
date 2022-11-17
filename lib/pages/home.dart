@@ -10,6 +10,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  //text controller
+  final _controller = TextEditingController();
+
   //Lista de task
   List toDoList = [
     ["Make Tutorial", false],
@@ -23,12 +26,21 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  //Guadar novo task
+  void saveNewTask() {
+    toDoList.add([_controller.text, false]);
+  }
+
   //Criar um novo task
   void createNewTask() {
     showDialog(
         context: context,
         builder: ((context) {
-          return const DialogBox();
+          return DialogBox(
+            controller: _controller,
+            onSave: saveNewTask,
+            onCancel: () => Navigator.of(context).pop(),
+          );
         }));
   }
 
