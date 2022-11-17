@@ -21,7 +21,7 @@ class DialogBox extends StatelessWidget {
         ),
         height: 120,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             //receber input do utilizador
             TextField(

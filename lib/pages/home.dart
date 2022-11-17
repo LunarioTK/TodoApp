@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:todo_app/data/database.dart';
 import 'package:todo_app/utils/dialog_box.dart';
 import 'package:todo_app/utils/todo_tile.dart';
 
@@ -10,25 +12,33 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  //referenciar a box
+  final _mybox = Hive.openBox('mybox');
+  ToDataBase db = ToDataBase();
+
   //text controller
   final _controller = TextEditingController();
 
   //Lista de task
-  List toDoList = [
+  /*List toDoList = [
     ["Make Tutorial", false],
     ["Do Exercise", true],
-  ];
+  ];*/
 
   //verificar se foi tocado
   void checkBoxChanged(bool? value, int index) {
     setState(() {
-      toDoList[index][1] = !toDoList[index][1];
+      db.toDoList[index][1] = !db.toDoList[index][1];
     });
   }
 
   //Guadar novo task
   void saveNewTask() {
-    toDoList.add([_controller.text, false]);
+    setState(() {
+      db.toDoList.add([_controller.text, false]);
+      _controller.clear();
+    });
+    Navigator.of(context).pop();
   }
 
   //Criar um novo task
@@ -42,6 +52,13 @@ class _HomePageState extends State<HomePage> {
             onCancel: () => Navigator.of(context).pop(),
           );
         }));
+  }
+
+  //apagar task
+  void deleteTask(int index) {
+    setState(() {
+      db.toDoList.removeAt(index);
+    });
   }
 
   @override
@@ -62,12 +79,13 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         body: ListView.builder(
-          itemCount: toDoList.length,
+          itemCount: db.toDoList.length,
           itemBuilder: (context, index) {
             return TodoTile(
-              taskName: toDoList[index][0],
-              taskStatus: toDoList[index][1],
+              taskName: db.toDoList[index][0],
+              taskStatus: db.toDoList[index][1],
               onChanged: (value) => checkBoxChanged(value, index),
+              deleteFunction: (context) => deleteTask(index),
             );
           },
         ));
