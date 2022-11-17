@@ -28,7 +28,7 @@ class _HomePageState extends State<HomePage> {
     showDialog(
         context: context,
         builder: ((context) {
-          return DialogBox();
+          return const DialogBox();
         }));
   }
 
