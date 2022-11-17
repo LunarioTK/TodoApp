@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/utils/my_button.dart';
 
 class DialogBox extends StatelessWidget {
   const DialogBox({super.key});
@@ -13,14 +14,26 @@ class DialogBox extends StatelessWidget {
         ),
         height: 120,
         child: Column(
-          children: const [
+          children: [
             //receber input do utilizador
-            TextField(
+            const TextField(
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 hintText: 'Add a new task',
               ),
             ),
+
+            //botão de guadar e cancelar
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                //botão guardar
+                MyButton(text: 'Save', onPressed: () {}),
+
+                //botão camcelar
+                MyButton(text: 'Cancelar', onPressed: () {}),
+              ],
+            )
           ],
         ),
       ),
